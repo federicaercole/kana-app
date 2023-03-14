@@ -8,10 +8,11 @@ function App() {
   const [selectedWords, setSelectedWords] = useState([]);
   const [maxNumberOfWords, setMaxNumberOfWords] = useState(10);
   const [status, setStatus] = useState("settings");
+  const [message, setMessage] = useState("");
 
   function selectWordsRandom() {
     const selectedWordsSet = new Set();
-    //array only if not alla kana selected
+    //array only if not all kana selected
     const filteredWords = hiraganaWords.filter(word => word.romaji.every((letter) => {
       return selectedKana.indexOf(letter) !== -1;
     }));
@@ -38,11 +39,22 @@ function App() {
     return array;
   }
 
+  function startApp(e) {
+    if (selectedKana.length !== 0) {
+      setStatus("play");
+      selectWordsRandom();
+      setMessage("");
+    } else {
+      e.preventDefault();
+      setMessage("Please select the kana you want to study.")
+    }
+  }
+
   return (
     <>
-      <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} />
-      <button type="button" onClick={() => { setStatus("play"); selectWordsRandom() }}>Start</button>
-      {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} />}
+      {status === "settings" && <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} message={message} setMaxNumberOfWords={setMaxNumberOfWords} />}
+      {status === "settings" && <button type="button" onClick={(e) => startApp(e)}>Start</button>}
+      {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} />}
     </>
   )
 
