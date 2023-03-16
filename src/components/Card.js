@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Message from "./Message";
 
 function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage }) {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -10,18 +11,24 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage 
         setRomaji(e.target.value);
     };
 
-    function checkWord() {
-        if (romaji === selectedWords[currentWordIndex].romaji.join("")) {
-            if (!wrongWords.find(item => item === selectedWords[currentWordIndex])) {
-                setScore(prev => prev + 1);
-            }
-            nextWord();
-            setRomaji("");
+    function checkWord(e) {
+        const input = document.querySelector("input");
+        if (!input.checkValidity()) {
+            setMessage("Write the romaji transcription of the word");
+            e.preventDefault();
         } else {
-            if (!wrongWords.find(item => item === selectedWords[currentWordIndex])) {
-                setWrongWords(wrongWords.concat(selectedWords[currentWordIndex]));
+            if (romaji === selectedWords[currentWordIndex].romaji.join("")) {
+                if (!wrongWords.find(item => item === selectedWords[currentWordIndex])) {
+                    setScore(prev => prev + 1);
+                }
+                nextWord();
+                setRomaji("");
+            } else {
+                if (!wrongWords.find(item => item === selectedWords[currentWordIndex])) {
+                    setWrongWords(wrongWords.concat(selectedWords[currentWordIndex]));
+                }
+                setMessage("Wrong answer! If you want you can retry");
             }
-            setMessage("Ops, your answer is wrong! Retry!");
         }
     }
 
@@ -34,17 +41,20 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage 
         }
     }
 
-    //mettere un check per il campo se è vuoto
+    function seeSolution() {
+        setRomaji(selectedWords[currentWordIndex].romaji.join(""));
+        setMessage("");
+    }
 
     return (
         <>
-            <p>{currentWordIndex + 1} of {maxNumberOfWords}</p>
-            <p>Score: {score}</p>
-            <p>{selectedWords[currentWordIndex].kana}</p>
-            <input type="text" name="romaji" value={romaji} onChange={handleChange} />
-            {message !== "" && <p>{message}</p>}
-            {/retry/i.test(message) && <button type="button">Give up and see the solution</button>}
+            <p>{currentWordIndex + 1}/{maxNumberOfWords}</p>
+            <p>{score}</p>
+            <p className="word">{selectedWords[currentWordIndex].kana}</p>
+            <input type="text" name="romaji" value={romaji} onChange={handleChange} required />
             <button type="button" onClick={checkWord}>Submit</button>
+            {message !== "" && <Message message={message} />}
+            {/retry/i.test(message) && <button onClick={seeSolution}>See the solution</button>}
         </>
     )
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { hiraganaWords } from "./utils/hiraganaWords";
 import Card from "./components/Card";
 import Settings from "./components/Settings";
+import Message from "./components/Message";
 
 function App() {
   const [selectedKana, setSelectedKana] = useState([]);
@@ -9,6 +10,7 @@ function App() {
   const [maxNumberOfWords, setMaxNumberOfWords] = useState(10);
   const [status, setStatus] = useState("settings");
   const [message, setMessage] = useState("");
+  const [isHiragana, setIsHiragana] = useState(true);
 
   function selectWordsRandom() {
     const selectedWordsSet = new Set();
@@ -46,14 +48,16 @@ function App() {
       setMessage("");
     } else {
       e.preventDefault();
-      setMessage("Please select the kana you want to study.")
+      setMessage("Select the kana you want to study")
     }
   }
 
   return (
     <>
-      {status === "settings" && <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} message={message} setMaxNumberOfWords={setMaxNumberOfWords} />}
-      {status === "settings" && <button type="button" onClick={(e) => startApp(e)}>Start</button>}
+      {status === "settings" && <h1>What do you want to <span className="highlight">practice</span>?</h1>}
+      {status === "settings" && <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} setIsHiragana={setIsHiragana} isHiragana={isHiragana} />}
+      {message !== "" && status === "settings" && <Message message={message} />}
+      {status === "settings" && <button type="button" className="start" onClick={(e) => startApp(e)}>Start</button>}
       {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} />}
     </>
   )
