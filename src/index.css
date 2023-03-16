@@ -1,13 +1,118 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500');
+
+:root {
+  --primary-color: #EF4823;
+  --secondary-color: #FFA66C;
+  --background: #FAF5EE;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  background-color: var(--background);
+  accent-color: var(--primary-color);
+  font-size: 1.3rem;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  justify-items: stretch;
+  align-items: center;
+  padding: 0 20px;
+}
+
+h1 {
+  font-weight: 300;
+  text-align: center;
+  grid-column: 1/3;
+}
+
+main>div {
+  grid-column: 1/3;
+  padding: 10px;
+  border-bottom: 1px solid var(--secondary-color);
+  display: flex;
+  justify-content: flex-start;
+}
+
+main>div label {
+  font-size: 1.3rem;
+}
+
+label[for="numberOfWords"],
+select {
+  grid-column: 1/3;
+  justify-self: center;
+}
+
+select {
+  background-color: white;
+  border: 1px solid var(--secondary-color);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
+.highlight {
+  font-weight: 500;
+}
+
+button {
+  border-radius: 10px;
+  background-color: #EF4823;
+  border-color: transparent;
+  padding: 10px 20px;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+}
+
+button.inactive {
+  font-weight: 300;
+  background-color: var(--background);
+  border: 2px dashed var(--primary-color);
+  color: var(--primary-color);
+}
+
+.start {
+  grid-column: 1/3;
+  font-size: 2rem;
+  justify-self: center;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+  width: 20px;
+}
+
+.message {
+  grid-column: 1/3;
+  background-color: #FFC8C4;
+  color: black;
+  padding: 10px;
+  border-radius: 10px;
+  justify-self: center;
+  display: flex;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+}
+
+.message svg {
+  width: 30px;
+  margin-right: 10px;
+  fill: #A20D00;
+}
+
+.word,
+input {
+  grid-column: 1/3;
 }
