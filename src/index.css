@@ -3,7 +3,7 @@
 :root {
   --primary-color: #EF4823;
   --secondary-color: #FFA66C;
-  --background: #FAF5EE;
+  --background: #fff3e1;
 }
 
 * {
@@ -23,23 +23,32 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  justify-items: stretch;
+  justify-items: center;
   align-items: center;
   padding: 20px;
 }
 
 h1 {
-  font-weight: 300;
-  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 500;
+}
+
+h1,
+h1+p,
+h2,
+h2+p,
+p {
   grid-column: 1/3;
+  text-align: center;
 }
 
 main>div {
   grid-column: 1/3;
   padding: 10px;
-  border-bottom: 1px solid var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color);
   display: flex;
   justify-content: flex-start;
+  justify-self: stretch;
 }
 
 main>div label {
@@ -60,9 +69,7 @@ select {
   font-size: 1.2rem;
 }
 
-.highlight {
-  font-weight: 500;
-}
+.highlight {}
 
 button {
   border-radius: 10px;
@@ -87,7 +94,6 @@ button:hover {
   background-color: var(--secondary-color);
   color: black;
   border-color: transparent;
-  font-weight: 500;
 }
 
 .start {
@@ -120,26 +126,25 @@ input[type="checkbox"] {
 }
 
 .score {
-  grid-column: 2/3;
+  grid-column: 1/3;
   padding: 10px;
   border-radius: 50%;
-  width: 90px;
-  height: 90px;
-  border: 3px solid var(--primary-color);
-  justify-self: end;
+  width: 130px;
+  height: 130px;
+  background-color: var(--primary-color);
+  border: 8px solid var(--secondary-color);
+  color: white;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 4rem;
+  justify-self: center;
+  margin: 20px;
 }
 
-.score svg {
-  width: 40px;
-  fill: var(--primary-color);
-}
 
-.score>p {
-  font-size: 1.5rem;
+p {
+  font-size: 1.6rem;
 }
 
 .word {
@@ -189,7 +194,7 @@ input[type="text"] {
 }
 
 .progress {
-  grid-column: 1/2;
+  grid-column: 1/3;
   position: relative;
   width: 90px;
   height: 90px;
@@ -211,4 +216,29 @@ input[type="text"] {
 
 .progress>p {
   position: relative;
+}
+
+table {
+  grid-column: 1/3;
+  border-collapse: collapse;
+  border-top: 3px solid var(--secondary-color);
+  justify-self: stretch;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 15px;
+}
+
+tr {
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+tr:last-child {
+  border-bottom-width: 3px;
+}
+
+.wrong {
+  background-color: var(--secondary-color);
 }

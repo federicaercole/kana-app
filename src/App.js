@@ -3,6 +3,7 @@ import { hiraganaWords } from "./utils/hiraganaWords";
 import Card from "./components/Card";
 import Settings from "./components/Settings";
 import Message from "./components/Message";
+import End from "./components/End";
 
 function App() {
   const [selectedKana, setSelectedKana] = useState([]);
@@ -11,6 +12,8 @@ function App() {
   const [status, setStatus] = useState("settings");
   const [message, setMessage] = useState("");
   const [isHiragana, setIsHiragana] = useState(true);
+  const [score, setScore] = useState(0);
+  const [wrongWords, setWrongWords] = useState([]);
 
   function selectWordsRandom() {
     const selectedWordsSet = new Set();
@@ -43,13 +46,19 @@ function App() {
 
   function startApp(e) {
     if (selectedKana.length !== 0) {
-      setStatus("play");
-      selectWordsRandom();
-      setMessage("");
+      reset();
     } else {
       e.preventDefault();
       setMessage("Select the kana you want to study")
     }
+  }
+
+  function reset() {
+    selectWordsRandom();
+    setWrongWords([]);
+    setScore(0);
+    setMessage("");
+    setStatus("play");
   }
 
   return (
@@ -58,7 +67,9 @@ function App() {
       {status === "settings" && <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} setIsHiragana={setIsHiragana} isHiragana={isHiragana} />}
       {message !== "" && status === "settings" && <Message message={message} />}
       {status === "settings" && <button type="button" className="start" onClick={(e) => startApp(e)}>Start</button>}
-      {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} />}
+      {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} setScore={setScore}
+        wrongWords={wrongWords} setWrongWords={setWrongWords} />}
+      {status === "end" && <End score={score} selectedWords={selectedWords} wrongWords={wrongWords} setStatus={setStatus} setSelectedKana={setSelectedKana} setMessage={setMessage} />}
     </>
   )
 
