@@ -42,6 +42,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
             setCurrentWordIndex(prev => prev + 1);
             setMessage("");
         } else {
+            setMessage("");
             setStatus("end");
         }
     }
@@ -56,13 +57,12 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
             checkWord(e);
         }
     }
-
     return (
         <>
             <div className="progress">
                 <p>{currentWordIndex + 1}/{maxNumberOfWords}</p>
             </div>
-            <label htmlFor="kanaWord" className="word">{selectedWords[currentWordIndex].kana}</label>
+            <label htmlFor="kanaWord" className="word" lang="ja-jp">{selectedWords[currentWordIndex].kana}</label>
             <div className="inputWord">
                 <input type="text" id="kanaWord" value={romaji} onChange={handleChange} onKeyDown={(e) => handleKeyInput(e)} required />
                 <button type="button" className="submit" onClick={checkWord}>Submit</button>

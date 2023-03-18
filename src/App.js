@@ -1,19 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { hiraganaWords } from "./utils/hiraganaWords";
+import StartPage from "./components/StartPage";
 import Card from "./components/Card";
 import Settings from "./components/Settings";
 import Message from "./components/Message";
-import End from "./components/End";
+import EndPage from "./components/EndPage";
+import WordReview from "./components/WordReview";
+
+const backIcon = <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>;
 
 function App() {
   const [selectedKana, setSelectedKana] = useState([]);
   const [selectedWords, setSelectedWords] = useState([]);
   const [maxNumberOfWords, setMaxNumberOfWords] = useState(10);
-  const [status, setStatus] = useState("settings");
+  const [status, setStatus] = useState("start");
   const [message, setMessage] = useState("");
   const [isHiragana, setIsHiragana] = useState(true);
   const [score, setScore] = useState(0);
   const [wrongWords, setWrongWords] = useState([]);
+
+  useEffect(() => {
+    const hiraganaButton = document.querySelector(".hiragana");
+    const katakanaButton = document.querySelector(".katakana");
+
+    if (isHiragana) {
+      katakanaButton.classList.add("inactive");
+      hiraganaButton.classList.remove("inactive");
+    } else {
+      hiraganaButton.classList.add("inactive");
+      katakanaButton.classList.remove("inactive");
+    }
+  }, [isHiragana])
 
   function selectWordsRandom() {
     const selectedWordsSet = new Set();
@@ -63,13 +80,22 @@ function App() {
 
   return (
     <>
-      {status === "settings" && <h1>What do you want to <span className="highlight">practice</span>?</h1>}
-      {status === "settings" && <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} setIsHiragana={setIsHiragana} isHiragana={isHiragana} />}
-      {message !== "" && status === "settings" && <Message message={message} />}
-      {status === "settings" && <button type="button" className="start" onClick={(e) => startApp(e)}>Start</button>}
-      {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} setScore={setScore}
-        wrongWords={wrongWords} setWrongWords={setWrongWords} />}
-      {status === "end" && <End score={score} selectedWords={selectedWords} wrongWords={wrongWords} setStatus={setStatus} setSelectedKana={setSelectedKana} setMessage={setMessage} />}
+      <main>
+        {status === "start" && <StartPage status={status} setStatus={setStatus} setIsHiragana={setIsHiragana} />}
+        {status === "settings" && <Settings status={status} selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana} />}
+
+        {message !== "" && status === "settings" && <Message message={message} />}
+        {status === "settings" && <button type="button" className="back" onClick={() => {
+          setStatus("start"); setSelectedKana([]); setIsHiragana(true); setMessage("")
+        }}>{backIcon} Back</button>}
+        {status === "settings" && <button type="button" className="start" onClick={(e) => startApp(e)}>Start</button>}
+
+        {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} setScore={setScore}
+          wrongWords={wrongWords} setWrongWords={setWrongWords} />}
+        {status === "end" && <EndPage score={score} selectedWords={selectedWords} setStatus={setStatus} setSelectedKana={setSelectedKana} />}
+        {status === "review" && <WordReview setStatus={setStatus} setMessage={setMessage} setSelectedKana={setSelectedKana} selectedWords={selectedWords} wrongWords={wrongWords} />}
+      </main>
+      <footer></footer>
     </>
   )
 
