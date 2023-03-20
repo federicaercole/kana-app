@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { doubleSounds } from "../App";
 
 const aLine = ["a", "i", "u", "e", "o"];
 const kaLine = ["ka", "ki", "ku", "ke", "ko"];
@@ -7,9 +8,8 @@ const taLine = ["ta", "chi", "tsu", "te", "to"];
 const naLine = ["na", "ni", "nu", "ne", "no"];
 const haLine = ["ha", "hi", "fu", "he", "ho"];
 const maLine = ["ma", "mi", "mu", "me", "mo"];
-const yaLine = ["ya", "yu", "yo"];
+const yaLine = ["ya", "yu", "yo", "wa", "n"];
 const raLine = ["ra", "ri", "ru", "re", "ro"];
-const waLine = ["wa", "wo", "n"];
 const dakutenLine = ["ga", "gi", "gu", "ge", "go",
     "za", "ji", "zu", "ze", "zo", "da", "de", "do",
     "ba", "bi", "bu", "be", "bo", "pa", "pi", "pu", "pe", "po"];
@@ -17,6 +17,9 @@ const combinationLine = ["kya", "kyu", "kyo", "gya", "gyu",
     "gyo", "cha", "chu", "cho", "nya", "nyu", "nyo", "mya",
     "myu", "myo", "rya", "ryu", "ryo", "sha", "shu", "sho", "ja", "ju", "jo",
     "hya", "hyu", "hyo", "bya", "byu", "byo", "pya", "pyu", "pyo"];
+
+export const totalKana = aLine.length + kaLine.length + saLine.length + taLine.length + naLine.length + haLine.length +
+    maLine.length + yaLine.length + raLine.length + dakutenLine.length + combinationLine.length;
 
 function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWords }) {
 
@@ -44,10 +47,10 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
         if (allKanaCheckbox.checked) {
             checkboxesNotAllKana.forEach(checkbox => checkbox.checked = true);
             setSelectedKana(selectedKana.concat(aLine, kaLine, saLine, taLine, naLine, maLine, haLine, yaLine, raLine,
-                waLine, dakutenLine, combinationLine));
+                dakutenLine, combinationLine));
         } else {
             checkboxesNotAllKana.forEach(checkbox => checkbox.checked = false);
-            setSelectedKana([]);
+            setSelectedKana(doubleSounds);
         }
     }
 
@@ -59,7 +62,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
             <p>Choose the kana you want to review:</p>
             <div className="allKana">
                 <input id="selectAll" type="checkbox" onClick={() => selectAllKana()} />
-                <label htmlFor="selectAll">Select all kana</label>
+                <label htmlFor="selectAll">{isHiragana ? "Select all hiragana" : "Select all katakana"}</label>
             </div>
             <div>
                 <input id="aLine" type="checkbox" onClick={(e) => selectKana(e, aLine)} />
@@ -96,17 +99,12 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
             </div>
             <div>
                 <input id="yaLine" type="checkbox" onClick={(e) => selectKana(e, yaLine)} />
-                <label htmlFor="yaLine" lang="ja-jp">{isHiragana ? "や ya・ゆ yu・よ yo" : "ヤ ya・ユ yu・ヨ yo"}</label>
+                <label htmlFor="yaLine" lang="ja-jp">{isHiragana ? "や ya・ゆ yu・よ yo・わ wa・ん n" : "ヤ ya・ユ yu・ヨ yo・ワ wa・ン n"}</label>
             </div>
 
             <div>
                 <input id="raLine" type="checkbox" onClick={(e) => selectKana(e, raLine)} />
                 <label htmlFor="raLine" lang="ja-jp">{isHiragana ? "ら ra・り ri・る ru・れ re・ろ ro" : "ラ ra・リ ri・ル ru・レ re・ロ ro"}</label>
-            </div>
-
-            <div>
-                <input id="waLine" type="checkbox" onClick={(e) => selectKana(e, waLine)} />
-                <label htmlFor="waLine" lang="ja-jp">{isHiragana ? "わ wa・を wo・ん n" : "ワ wa・ヲ wo・ン n"}</label>
             </div>
 
             <div>
@@ -120,7 +118,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
             </div>
 
             <div>
-                <label htmlFor="numberOfWords">Number of words to review</label>
+                <label htmlFor="numberOfWords">Max number of words to review</label>
                 <select id="numberOfWords" name="words" onChange={selectNumber}>
                     <option defaultValue="10">10</option>
                     <option value="25">25</option>
