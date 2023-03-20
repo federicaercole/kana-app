@@ -16,7 +16,8 @@ const dakutenLine = ["ga", "gi", "gu", "ge", "go",
 const combinationLine = ["kya", "kyu", "kyo", "gya", "gyu",
     "gyo", "cha", "chu", "cho", "nya", "nyu", "nyo", "mya",
     "myu", "myo", "rya", "ryu", "ryo", "sha", "shu", "sho", "ja", "ju", "jo",
-    "hya", "hyu", "hyo", "bya", "byu", "byo", "pya", "pyu", "pyo"];
+    "hya", "hyu", "hyo", "bya", "byu", "byo", "pya", "pyu", "pyo", "ti", "tu", "she",
+    "je", "che", "wi", "we", "wo", "fa", "fi", "fe", "fo", "va", "vi", "vu", "ve", "vo", "di", "du"];
 
 export const totalKana = aLine.length + kaLine.length + saLine.length + taLine.length + naLine.length + haLine.length +
     maLine.length + yaLine.length + raLine.length + dakutenLine.length + combinationLine.length;
@@ -114,7 +115,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
 
             <div>
                 <input id="combinationLine" type="checkbox" onClick={(e) => selectKana(e, combinationLine)} />
-                <label htmlFor="combinationLine">Combination kana</label>
+                <label htmlFor="combinationLine">Combination kana {!isHiragana && "and extended katakana (ファ fa・ディ di...)"}</label>
             </div>
 
             <div>
