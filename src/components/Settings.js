@@ -76,7 +76,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
 
             <div>
                 <input id="saLine" type="checkbox" onClick={(e) => selectKana(e, saLine)} />
-                <label htmlFor="kaLine" lang="ja-jp">{isHiragana ? "さ sa・し shi・す su・せ se・そ so" : "サ sa・シ shi・ス su・セ se・ソ so"}</label>
+                <label htmlFor="saLine" lang="ja-jp">{isHiragana ? "さ sa・し shi・す su・せ se・そ so" : "サ sa・シ shi・ス su・セ se・ソ so"}</label>
             </div>
 
             <div>
