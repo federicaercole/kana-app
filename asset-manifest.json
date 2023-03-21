@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/kana-app/static/css/main.8249e1d4.css",
+    "main.js": "/kana-app/static/js/main.f31bb182.js",
+    "static/media/background.svg": "/kana-app/static/media/background.19735d23360668bb26f4.svg",
+    "index.html": "/kana-app/index.html",
+    "main.8249e1d4.css.map": "/kana-app/static/css/main.8249e1d4.css.map",
+    "main.f31bb182.js.map": "/kana-app/static/js/main.f31bb182.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8249e1d4.css",
+    "static/js/main.f31bb182.js"
+  ]
+}
