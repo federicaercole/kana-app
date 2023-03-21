@@ -111,7 +111,6 @@ function App() {
         {status === "end" && <EndPage score={score} selectedWords={selectedWords} setStatus={setStatus} setSelectedKana={setSelectedKana} />}
         {status === "review" && <WordReview setStatus={setStatus} isHiragana={isHiragana} setSelectedKana={setSelectedKana} selectedWords={selectedWords} wrongWords={wrongWords} />}
       </main>
-      <footer>Made by Federica Ercole</footer>
     </>
   )
 

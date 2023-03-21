@@ -166,7 +166,7 @@ export const hiraganaWords = [
     { kana: "れきし", romaji: ["re", "ki", "shi"], kanji: "歴史" },
     { kana: "いろ", romaji: ["i", "ro"], kanji: "色" },
     { kana: "とりにく", romaji: ["to", "ri", "ni", "ku"], kanji: "とり肉" },
-    { kana: "温い", romaji: ["nu", "ru", "i"], kanji: "温い" },
+    { kana: "ぬるい", romaji: ["nu", "ru", "i"], kanji: "温い" },
     { kana: "そら", romaji: ["so", "ra"], kanji: "空" },
     { kana: "こたえる", romaji: ["ko", "ta", "e", "ru"], kanji: "答える" },
     { kana: "くもり", romaji: ["ku", "mo", "ri"], kanji: "曇り" },

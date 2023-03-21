@@ -34,7 +34,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
                 if (!wrongWords.find(item => item === selectedWords[currentWordIndex])) {
                     setWrongWords(wrongWords.concat(selectedWords[currentWordIndex]));
                 }
-                setMessage("Wrong answer! If you want you can retry");
+                setMessage("Wrong answer! Want to retry?");
             }
         }
     }

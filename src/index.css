@@ -19,24 +19,28 @@ body {
   font-family: 'Jost', sans-serif;
   background-color: var(--background);
   font-size: 1.3rem;
+  background-image: url(./images/background.svg);
+  background-position: 50% 10%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 #app {
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 100px 1fr auto;
   min-height: 100vh;
   justify-items: center;
   align-items: center;
 }
 
 main {
+  grid-row: 2;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 30px;
   justify-items: center;
   align-items: stretch;
-  padding: 20px;
-  margin-top: 70px;
+  padding-bottom: 20px;
 }
 
 main>div {
@@ -66,7 +70,7 @@ main>div:first-of-type {
 h1 {
   font-size: 2.5rem;
   font-weight: 500;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 h1,
@@ -114,7 +118,7 @@ main>div:last-of-type:not(.score) {
 
 select {
   background-color: white;
-  border: 1px solid var(--secondary-color);
+  border: 2px solid var(--secondary-color);
   padding: 10px;
   border-radius: 10px;
   font-size: 1.2rem;
@@ -187,6 +191,7 @@ button.inactive {
 
 .hiragana,
 .katakana {
+  margin-top: 70px;
   grid-column: 1/3;
 }
 
@@ -203,6 +208,16 @@ button.inactive {
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.back,
+.list {
+  margin-left: 20px;
+}
+
+.back+.start,
+.list+.start {
+  margin-right: 20px;
 }
 
 table+.start {
@@ -335,6 +350,10 @@ table {
   margin-bottom: 50px;
 }
 
+.info+table {
+  margin-top: 20px;
+}
+
 th,
 td {
   text-align: left;
@@ -351,6 +370,37 @@ tr:last-child {
 
 .wrong {
   background-color: var(--secondary-color);
+}
+
+/*Shape at top of the page*/
+
+.shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  fill: #EF4823;
+  z-index: -1;
+}
+
+.shape svg {
+  position: relative;
+  display: block;
+  width: calc(300% + 1.3px);
+  height: 170px;
+}
+
+/*Footer*/
+footer {
+  grid-row: 3;
+  padding: 10px 0;
+  background-color: var(--secondary-color);
+  justify-self: stretch;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.1rem;
 }
 
 /*Media queries*/
@@ -384,14 +434,15 @@ tr:last-child {
 
 @media (min-width: 900px) {
 
+  body {
+    background-size: contain;
+  }
+
   main {
     max-width: 900px;
     margin: 0 auto;
   }
 
-  body {
-    background-size: 100% 20%;
-  }
 }
 
 @media(hover:hover) {
