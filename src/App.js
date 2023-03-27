@@ -101,15 +101,19 @@ function App() {
         {status === "settings" && <Settings status={status} selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana} />}
 
         {message !== "" && status === "settings" && <Message message={message} />}
-        {status === "settings" && <button type="button" className="back" onClick={() => {
-          setStatus("start"); setSelectedKana(doubleSounds); setIsHiragana(true); setMessage("")
-        }}>{backIcon} Back</button>}
-        {status === "settings" && <button type="button" className="start" onClick={(e) => startApp(e)}>Start</button>}
-
+        {status === "settings" &&
+          <div className="buttons">
+            <button type="button" className="back" onClick={() => {
+              setStatus("start"); setSelectedKana(doubleSounds); setIsHiragana(true); setMessage(""); setMaxNumberOfWords(10)
+            }}>{backIcon} Back</button>
+            <button type="button" className="start" onClick={(e) => startApp(e)}>Start</button>
+          </div>}
         {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} setScore={setScore}
           wrongWords={wrongWords} setWrongWords={setWrongWords} />}
-        {status === "end" && <EndPage score={score} selectedWords={selectedWords} setStatus={setStatus} setSelectedKana={setSelectedKana} />}
-        {status === "review" && <WordReview setStatus={setStatus} isHiragana={isHiragana} setSelectedKana={setSelectedKana} selectedWords={selectedWords} wrongWords={wrongWords} />}
+        {status === "end" && <EndPage score={score} selectedWords={selectedWords} setStatus={setStatus} setSelectedKana={setSelectedKana}
+          setIsHiragana={setIsHiragana} setMaxNumberOfWords={setMaxNumberOfWords} />}
+        {status === "review" && <WordReview setStatus={setStatus} isHiragana={isHiragana} setSelectedKana={setSelectedKana} selectedWords={selectedWords} wrongWords={wrongWords}
+          setIsHiragana={setIsHiragana} setMaxNumberOfWords={setMaxNumberOfWords} />}
       </main>
     </>
   )

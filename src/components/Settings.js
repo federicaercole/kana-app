@@ -25,7 +25,7 @@ export const totalKana = aLine.length + kaLine.length + saLine.length + taLine.l
 function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWords }) {
 
     useEffect(() => {
-        const allKanaCheckbox = document.querySelector("#selectAll");
+        const allKanaCheckbox = document.querySelector("#select-all");
         const checkboxesNotAllKana = [...document.querySelectorAll("input[type='checkbox']")].slice(1);
         if (checkboxesNotAllKana.every((checkbox) => checkbox.checked)) {
             allKanaCheckbox.checked = true;
@@ -33,7 +33,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
     });
 
     function selectKana(e, line) {
-        const allKanaCheckbox = document.querySelector("#selectAll");
+        const allKanaCheckbox = document.querySelector("#select-all");
         if (e.target.checked) {
             setSelectedKana(selectedKana.concat(line));
         } else {
@@ -43,7 +43,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
     }
 
     function selectAllKana() {
-        const allKanaCheckbox = document.querySelector("#selectAll");
+        const allKanaCheckbox = document.querySelector("#select-all");
         const checkboxesNotAllKana = [...document.querySelectorAll("input[type='checkbox']")].slice(1);
         if (allKanaCheckbox.checked) {
             checkboxesNotAllKana.forEach(checkbox => checkbox.checked = true);
@@ -60,10 +60,10 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
     }
     return (
         <>
-            <p>Choose the kana you want to review:</p>
-            <div className="allKana">
-                <input id="selectAll" type="checkbox" onClick={() => selectAllKana()} />
-                <label htmlFor="selectAll">{isHiragana ? "Select all hiragana" : "Select all katakana"}</label>
+            <h1>Choose the kana you want to review</h1>
+            <div className="all-kana">
+                <input id="select-all" type="checkbox" onClick={() => selectAllKana()} />
+                <label htmlFor="select-all">{isHiragana ? "Select all hiragana" : "Select all katakana"}</label>
             </div>
             <div>
                 <input id="aLine" type="checkbox" onClick={(e) => selectKana(e, aLine)} />
@@ -118,9 +118,9 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
                 <label htmlFor="combinationLine">Combination kana {!isHiragana && "and extended katakana (ファ fa・ディ di...)"}</label>
             </div>
 
-            <div>
-                <label htmlFor="numberOfWords">Max number of words to review</label>
-                <select id="numberOfWords" name="words" onChange={selectNumber}>
+            <div className="selection-number">
+                <label htmlFor="number-of-words">Max number of words to review</label>
+                <select id="number-of-words" name="words" onChange={selectNumber}>
                     <option defaultValue="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>

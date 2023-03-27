@@ -11,7 +11,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
         const degree = (360 / maxNumberOfWords);
         const progressBar = document.querySelector(".progress");
 
-        progressBar.style.background = `conic-gradient(var(--primary-color) ${(currentWordIndex + 1) * degree}deg, var(--secondary-color) 0deg)`
+        progressBar.style.background = `conic-gradient(var(--accent-color) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`
     }, [currentWordIndex, maxNumberOfWords])
 
     const handleChange = (e) => {
@@ -24,7 +24,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
             setMessage("Write the romaji transcription of the word");
             e.preventDefault();
         } else {
-            if (romaji.toLowerCase() === selectedWords[currentWordIndex].romaji.join("").replaceAll("-", "")) {
+            if (romaji.trim().toLowerCase() === selectedWords[currentWordIndex].romaji.join("").replaceAll("-", "")) {
                 if (!wrongWords.find(item => item === selectedWords[currentWordIndex])) {
                     setScore(prev => prev + 1);
                 }
@@ -64,9 +64,9 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
             <div className="progress">
                 <p>{currentWordIndex + 1}/{maxNumberOfWords}</p>
             </div>
-            <label htmlFor="kanaWord" className="word" key={selectedWords[currentWordIndex].kana} lang="ja-jp">{selectedWords[currentWordIndex].kana}</label>
-            <div className="inputWord">
-                <input type="text" id="kanaWord" value={romaji} onChange={handleChange} onKeyDown={(e) => handleKeyInput(e)} required />
+            <label htmlFor="kana-word" className="word" key={selectedWords[currentWordIndex].kana} lang="ja-jp">{selectedWords[currentWordIndex].kana}</label>
+            <div className="input-word">
+                <input type="text" id="kana-word" value={romaji} onChange={handleChange} onKeyDown={(e) => handleKeyInput(e)} required autoFocus />
                 <button type="button" className="submit" onClick={checkWord}>Submit</button>
             </div>
             {message !== "" && <Message message={message} />}
