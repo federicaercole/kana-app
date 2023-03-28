@@ -4,9 +4,10 @@
 /* Basic styles and containers*/
 
 :root {
-  --accent-color: #EF4823;
+  --accent-color: #FC425D;
   --primary-color: #FFA66C;
   --primary-color-light: hsl(24, 100%, 85%);
+  --primary-color-dark: #EF4823;
   --background: #fff3e1;
   --background-opacity: rgba(255, 243, 225, 0.5);
   --grey-dark: hsl(25, 21%, 24%);
@@ -340,7 +341,7 @@ button:active>svg {
   border-radius: 50%;
   width: 128px;
   height: 128px;
-  background-color: var(--accent-color);
+  background-color: var(--primary-color-dark);
   border: 10px solid var(--primary-color);
   color: var(--grey-light);
   justify-content: center;

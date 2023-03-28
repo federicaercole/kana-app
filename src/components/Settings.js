@@ -1,26 +1,6 @@
 import { useEffect } from "react";
-import { doubleSounds } from "../App";
-
-const aLine = ["a", "i", "u", "e", "o"];
-const kaLine = ["ka", "ki", "ku", "ke", "ko"];
-const saLine = ["sa", "shi", "su", "se", "so"];
-const taLine = ["ta", "chi", "tsu", "te", "to"];
-const naLine = ["na", "ni", "nu", "ne", "no"];
-const haLine = ["ha", "hi", "fu", "he", "ho"];
-const maLine = ["ma", "mi", "mu", "me", "mo"];
-const yaLine = ["ya", "yu", "yo", "wa", "n"];
-const raLine = ["ra", "ri", "ru", "re", "ro"];
-const dakutenLine = ["ga", "gi", "gu", "ge", "go",
-    "za", "ji", "zu", "ze", "zo", "da", "de", "do",
-    "ba", "bi", "bu", "be", "bo", "pa", "pi", "pu", "pe", "po"];
-const combinationLine = ["kya", "kyu", "kyo", "gya", "gyu",
-    "gyo", "cha", "chu", "cho", "nya", "nyu", "nyo", "mya",
-    "myu", "myo", "rya", "ryu", "ryo", "sha", "shu", "sho", "ja", "ju", "jo",
-    "hya", "hyu", "hyo", "bya", "byu", "byo", "pya", "pyu", "pyo", "ti", "tu", "she",
-    "je", "che", "wi", "we", "wo", "fa", "fi", "fe", "fo", "va", "vi", "vu", "ve", "vo", "di", "du"];
-
-export const totalKana = aLine.length + kaLine.length + saLine.length + taLine.length + naLine.length + haLine.length +
-    maLine.length + yaLine.length + raLine.length + dakutenLine.length + combinationLine.length;
+import Checkbox from "./Checkbox";
+import { initialSounds, aLine, kaLine, saLine, taLine, naLine, haLine, maLine, yaLine, raLine, dakutenLine, combinationLine } from "../utils/syllabes";
 
 function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWords }) {
 
@@ -37,7 +17,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
         if (e.target.checked) {
             setSelectedKana(selectedKana.concat(line));
         } else {
-            setSelectedKana(selectedKana.filter((item) => !line.includes(item)))
+            setSelectedKana(selectedKana.filter((item) => !line.includes(item)));
             allKanaCheckbox.checked = false;
         }
     }
@@ -51,7 +31,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
                 dakutenLine, combinationLine));
         } else {
             checkboxesNotAllKana.forEach(checkbox => checkbox.checked = false);
-            setSelectedKana(doubleSounds);
+            setSelectedKana(initialSounds);
         }
     }
 
@@ -61,62 +41,19 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
     return (
         <>
             <h1>Choose the kana you want to review</h1>
-            <div className="all-kana">
-                <input id="select-all" type="checkbox" onClick={() => selectAllKana()} />
-                <label htmlFor="select-all">{isHiragana ? "Select all hiragana" : "Select all katakana"}</label>
-            </div>
-            <div>
-                <input id="aLine" type="checkbox" onClick={(e) => selectKana(e, aLine)} />
-                <label htmlFor="aLine" lang="ja-jp">{isHiragana ? "あ a・い i・う u・え e・お o" : "ア a・イ i・ウ u・エ e・オ o"}</label>
-            </div>
-            <div>
-                <input id="kaLine" type="checkbox" onClick={(e) => selectKana(e, kaLine)} />
-                <label htmlFor="kaLine" lang="ja-jp">{isHiragana ? "か ka・き ki・く ku・け ke・こ ko" : "カ ka・キ ki・ク ku・ケ ke・コ ko"}</label>
-            </div>
 
-            <div>
-                <input id="saLine" type="checkbox" onClick={(e) => selectKana(e, saLine)} />
-                <label htmlFor="saLine" lang="ja-jp">{isHiragana ? "さ sa・し shi・す su・せ se・そ so" : "サ sa・シ shi・ス su・セ se・ソ so"}</label>
-            </div>
-
-            <div>
-                <input id="taLine" type="checkbox" onClick={(e) => selectKana(e, taLine)} />
-                <label htmlFor="taLine" lang="ja-jp">{isHiragana ? "た ta・ち chi・つ tsu・て te・と to" : "タ ta・チ chi・ツ tsu・テ te・ト to"}</label>
-            </div>
-
-            <div>
-                <input id="naLine" type="checkbox" onClick={(e) => selectKana(e, naLine)} />
-                <label htmlFor="naLine" lang="ja-jp">{isHiragana ? "な na・に ni・ぬ nu・ね ne・の no" : "ナ na・ニ ni・ヌ nu・ネ ne・ノ no"}</label>
-            </div>
-
-            <div>
-                <input id="haLine" type="checkbox" onClick={(e) => selectKana(e, haLine)} />
-                <label htmlFor="haLine" lang="ja-jp">{isHiragana ? "は ha・ひ hi・ふ fu・へ he・ほ ho" : "ハ ha・ヒ hi・フ fu・ヘ he・ホ ho"}</label>
-            </div>
-
-            <div>
-                <input id="maLine" type="checkbox" onClick={(e) => selectKana(e, maLine)} />
-                <label htmlFor="maLine" lang="ja-jp">{isHiragana ? "ま ma・み mi・む mu・め me・も mo" : "マ ma・ミ mi・ム mu・メ me・モ mo"}</label>
-            </div>
-            <div>
-                <input id="yaLine" type="checkbox" onClick={(e) => selectKana(e, yaLine)} />
-                <label htmlFor="yaLine" lang="ja-jp">{isHiragana ? "や ya・ゆ yu・よ yo・わ wa・ん n" : "ヤ ya・ユ yu・ヨ yo・ワ wa・ン n"}</label>
-            </div>
-
-            <div>
-                <input id="raLine" type="checkbox" onClick={(e) => selectKana(e, raLine)} />
-                <label htmlFor="raLine" lang="ja-jp">{isHiragana ? "ら ra・り ri・る ru・れ re・ろ ro" : "ラ ra・リ ri・ル ru・レ re・ロ ro"}</label>
-            </div>
-
-            <div>
-                <input id="dakutenLine" type="checkbox" onClick={(e) => selectKana(e, dakutenLine)} />
-                <label htmlFor="dakutenLine">Dakuten kana</label>
-            </div>
-
-            <div>
-                <input id="combinationLine" type="checkbox" onClick={(e) => selectKana(e, combinationLine)} />
-                <label htmlFor="combinationLine">Combination kana {!isHiragana && "and extended katakana (ファ fa・ディ di...)"}</label>
-            </div>
+            <Checkbox className="all-kana" id="select-all" onClick={() => selectAllKana()} labelText={isHiragana ? "Select all hiragana" : "Select all katakana"} />
+            <Checkbox id="aLine" onClick={(e) => selectKana(e, aLine)} lang="ja-jp" labelText={isHiragana ? "あ a・い i・う u・え e・お o" : "ア a・イ i・ウ u・エ e・オ o"} />
+            <Checkbox id="kaLine" onClick={(e) => selectKana(e, kaLine)} lang="ja-jp" labelText={isHiragana ? "か ka・き ki・く ku・け ke・こ ko" : "カ ka・キ ki・ク ku・ケ ke・コ ko"} />
+            <Checkbox id="saLine" onClick={(e) => selectKana(e, saLine)} lang="ja-jp" labelText={isHiragana ? "さ sa・し shi・す su・せ se・そ so" : "サ sa・シ shi・ス su・セ se・ソ so"} />
+            <Checkbox id="taLine" onClick={(e) => selectKana(e, taLine)} lang="ja-jp" labelText={isHiragana ? "た ta・ち chi・つ tsu・て te・と to" : "タ ta・チ chi・ツ tsu・テ te・ト to"} />
+            <Checkbox id="naLine" onClick={(e) => selectKana(e, naLine)} lang="ja-jp" labelText={isHiragana ? "な na・に ni・ぬ nu・ね ne・の no" : "ナ na・ニ ni・ヌ nu・ネ ne・ノ no"} />
+            <Checkbox id="haLine" onClick={(e) => selectKana(e, haLine)} lang="ja-jp" labelText={isHiragana ? "は ha・ひ hi・ふ fu・へ he・ほ ho" : "ハ ha・ヒ hi・フ fu・ヘ he・ホ ho"} />
+            <Checkbox id="maLine" onClick={(e) => selectKana(e, maLine)} lang="ja-jp" labelText={isHiragana ? "ま ma・み mi・む mu・め me・も mo" : "マ ma・ミ mi・ム mu・メ me・モ mo"} />
+            <Checkbox id="yaLine" onClick={(e) => selectKana(e, yaLine)} lang="ja-jp" labelText={isHiragana ? "や ya・ゆ yu・よ yo・わ wa・ん n" : "ヤ ya・ユ yu・ヨ yo・ワ wa・ン n"} />
+            <Checkbox id="raLine" onClick={(e) => selectKana(e, raLine)} lang="ja-jp" labelText={isHiragana ? "ら ra・り ri・る ru・れ re・ろ ro" : "ラ ra・リ ri・ル ru・レ re・ロ ro"} />
+            <Checkbox id="dakutenLine" onClick={(e) => selectKana(e, dakutenLine)} labelText="Dakuten kana" />
+            <Checkbox id="combinationLine" onClick={(e) => selectKana(e, combinationLine)} labelText={isHiragana ? "Combination kana" : "Combination kana and extended katakana (ファ fa・ディ di...)"} />
 
             <div className="selection-number">
                 <label htmlFor="number-of-words">Max number of words to review</label>

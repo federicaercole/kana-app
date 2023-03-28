@@ -11,7 +11,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
         const degree = (360 / maxNumberOfWords);
         const progressBar = document.querySelector(".progress");
 
-        progressBar.style.background = `conic-gradient(var(--accent-color) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`
+        progressBar.style.background = `conic-gradient(var(--primary-color-dark) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`
     }, [currentWordIndex, maxNumberOfWords])
 
     const handleChange = (e) => {
@@ -44,7 +44,6 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
             setCurrentWordIndex(prev => prev + 1);
             setMessage("");
         } else {
-            setMessage("");
             setStatus("end");
         }
     }
@@ -60,7 +59,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
         }
     }
     return (
-        <>
+        <main>
             <div className="progress">
                 <p>{currentWordIndex + 1}/{maxNumberOfWords}</p>
             </div>
@@ -69,9 +68,9 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
                 <input type="text" id="kana-word" value={romaji} onChange={handleChange} onKeyDown={(e) => handleKeyInput(e)} required autoFocus />
                 <button type="button" className="submit" onClick={checkWord}>Submit</button>
             </div>
-            {message !== "" && <Message message={message} />}
+            <Message message={message} />
             {/retry/i.test(message) && <button className="solution" onClick={seeSolution}>{solutionIcon} See the solution</button>}
-        </>
+        </main>
     )
 }
 

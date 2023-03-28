@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { hiraganaWords } from "./utils/hiraganaWords";
 import { katakanaWords } from "./utils/katakanaWords";
-import { totalKana } from "./components/Settings";
+import { initialSounds, totalKana } from "./utils/syllabes";
 import StartPage from "./components/StartPage";
 import Card from "./components/Card";
 import Settings from "./components/Settings";
@@ -11,10 +11,8 @@ import WordReview from "./components/WordReview";
 
 const backIcon = <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>;
 
-export const doubleSounds = ["-a", "-i", "-u", "-e", "-o", "-t", "-k", "-p", "-c", "-s", "-g"];
-
 function App() {
-  const [selectedKana, setSelectedKana] = useState(doubleSounds);
+  const [selectedKana, setSelectedKana] = useState(initialSounds);
   const [selectedWords, setSelectedWords] = useState([]);
   const [maxNumberOfWords, setMaxNumberOfWords] = useState(10);
   const [status, setStatus] = useState("start");
@@ -54,7 +52,7 @@ function App() {
 
   function setArrayOfWords() {
     const array = isHiragana ? hiraganaWords : katakanaWords;
-    if (selectedKana.length === (totalKana.length + doubleSounds.length)) {
+    if (selectedKana.length === (totalKana.length + initialSounds.length)) {
       return array;
     } else {
       return array.filter(word => word.romaji.every((letter) => {
@@ -73,51 +71,51 @@ function App() {
     return array;
   }
 
-  function startApp(e) {
+  function startApp() {
     const filteredWords = setArrayOfWords();
-    if (selectedKana.length === doubleSounds.length) {
-      e.preventDefault();
+    if (selectedKana.length === initialSounds.length) {
       setMessage("Select the kana you want to study");
     } else if (filteredWords.length === 0) {
-      e.preventDefault();
-      setMessage("There aren't any words with these kana. Please select more kana");
+      setMessage("There aren't any words with these kana. Select more kana");
     } else {
       selectWordsRandom(filteredWords);
       setStatus("play");
-      reset();
+      setMessage("");
     }
   }
 
-  function reset() {
+  function returnToStart() {
+    setStatus("start");
+    setSelectedKana(initialSounds);
+    setIsHiragana(true);
+    setMessage("");
+    setMaxNumberOfWords(10);
     setWrongWords([]);
     setScore(0);
-    setMessage("");
   }
 
-  return (
-    <>
-      <main>
-        {status === "start" && <StartPage status={status} setStatus={setStatus} setIsHiragana={setIsHiragana} />}
-        {status === "settings" && <Settings status={status} selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana} />}
-
-        {message !== "" && status === "settings" && <Message message={message} />}
-        {status === "settings" &&
-          <div className="buttons">
-            <button type="button" className="back" onClick={() => {
-              setStatus("start"); setSelectedKana(doubleSounds); setIsHiragana(true); setMessage(""); setMaxNumberOfWords(10)
-            }}>{backIcon} Back</button>
-            <button type="button" className="start" onClick={(e) => startApp(e)}>Start</button>
-          </div>}
-        {status === "play" && <Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} setScore={setScore}
-          wrongWords={wrongWords} setWrongWords={setWrongWords} />}
-        {status === "end" && <EndPage score={score} selectedWords={selectedWords} setStatus={setStatus} setSelectedKana={setSelectedKana}
-          setIsHiragana={setIsHiragana} setMaxNumberOfWords={setMaxNumberOfWords} />}
-        {status === "review" && <WordReview setStatus={setStatus} isHiragana={isHiragana} setSelectedKana={setSelectedKana} selectedWords={selectedWords} wrongWords={wrongWords}
-          setIsHiragana={setIsHiragana} setMaxNumberOfWords={setMaxNumberOfWords} />}
-      </main>
-    </>
-  )
-
+  switch (status) {
+    case "start":
+      return (<StartPage setStatus={setStatus} setIsHiragana={setIsHiragana} />);
+    case "settings":
+      return (<main>
+        <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana} />
+        <Message message={message} />
+        <div className="buttons">
+          <button type="button" className="back" onClick={() => returnToStart()}>{backIcon} Back</button>
+          <button type="button" className="start" onClick={() => startApp()}>Start</button>
+        </div>
+      </main>);
+    case "play":
+      return (<Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} setScore={setScore}
+        wrongWords={wrongWords} setWrongWords={setWrongWords} />);
+    case "end":
+      return (<EndPage score={score} maxNumberOfWords={maxNumberOfWords} setStatus={setStatus} onClick={() => returnToStart()} />)
+    case "review":
+      return (<WordReview isHiragana={isHiragana} selectedWords={selectedWords} wrongWords={wrongWords} onClick={() => returnToStart()} />)
+    default:
+      return;
+  }
 }
 
 export default App;
