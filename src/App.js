@@ -34,6 +34,10 @@ function App() {
     }
   }, [isHiragana])
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [status]);
+
   function selectWordsRandom(filteredWords) {
     const selectedWordsSet = new Set();
 
