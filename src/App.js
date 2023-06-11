@@ -22,20 +22,12 @@ function App() {
   const [wrongWords, setWrongWords] = useState([]);
 
   useEffect(() => {
-    const hiraganaButton = document.querySelector(".hiragana");
-    const katakanaButton = document.querySelector(".katakana");
-
-    if (isHiragana) {
-      katakanaButton.classList.add("inactive");
-      hiraganaButton.classList.remove("inactive");
-    } else {
-      hiraganaButton.classList.add("inactive");
-      katakanaButton.classList.remove("inactive");
-    }
-  }, [isHiragana])
+    window.scrollTo(0, 0);
+  }, [status]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const h1 = document.querySelector("h1");
+    h1.focus();
   }, [status]);
 
   function selectWordsRandom(filteredWords) {
@@ -78,9 +70,9 @@ function App() {
   function startApp() {
     const filteredWords = setArrayOfWords();
     if (selectedKana.length === initialSounds.length) {
-      setMessage("Select the kana you want to study");
+      setMessage("Error: You didn't select any kana. Select the kana you want to study");
     } else if (filteredWords.length === 0) {
-      setMessage("There aren't any words with these kana. Select more kana");
+      setMessage("Error: There aren't any words with these kana. Select more kana");
     } else {
       selectWordsRandom(filteredWords);
       setStatus("play");
@@ -104,7 +96,7 @@ function App() {
     case "settings":
       return (<main>
         <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana} />
-        <Message message={message} />
+        <Message message={message} key={message} />
         <div className="buttons">
           <button type="button" className="back" onClick={() => returnToStart()}>{backIcon} Back</button>
           <button type="button" className="start" onClick={() => startApp()}>Start</button>
