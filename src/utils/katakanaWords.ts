@@ -1,4 +1,6 @@
-export const katakanaWords = [
+import { Word } from "./types";
+
+export const katakanaWords: Word[] = [
     { kana: "ウイ", romaji: ["u", "i"] },
     { kana: "アイ", romaji: ["a", "i"] },
     { kana: "エアー", romaji: ["e", "a", "-a"] },

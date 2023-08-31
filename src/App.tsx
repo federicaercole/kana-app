@@ -8,30 +8,31 @@ import Settings from "./components/Settings";
 import Message from "./components/Message";
 import EndPage from "./components/EndPage";
 import WordReview from "./components/WordReview";
+import { Word } from "./utils/types";
 
 const backIcon = <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>;
 
 function App() {
   const [selectedKana, setSelectedKana] = useState(initialSounds);
-  const [selectedWords, setSelectedWords] = useState([]);
+  const [selectedWords, setSelectedWords] = useState<Word[]>([]);
   const [maxNumberOfWords, setMaxNumberOfWords] = useState(10);
   const [status, setStatus] = useState("start");
   const [message, setMessage] = useState("");
   const [isHiragana, setIsHiragana] = useState(true);
   const [score, setScore] = useState(0);
-  const [wrongWords, setWrongWords] = useState([]);
+  const [wrongWords, setWrongWords] = useState<Word[]>([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [status]);
 
   useEffect(() => {
-    const h1 = document.querySelector("h1");
+    const h1 = document.querySelector("h1") as HTMLHeadingElement;
     h1.focus();
   }, [status]);
 
-  function selectWordsRandom(filteredWords) {
-    const selectedWordsSet = new Set();
+  function selectWordsRandom(filteredWords: Word[]) {
+    const selectedWordsSet: Set<Word> = new Set();
 
     if (filteredWords.length > maxNumberOfWords) {
       while (selectedWordsSet.size < maxNumberOfWords) {
@@ -48,7 +49,7 @@ function App() {
 
   function setArrayOfWords() {
     const array = isHiragana ? hiraganaWords : katakanaWords;
-    if (selectedKana.length === (totalKana.length + initialSounds.length)) {
+    if (selectedKana.length === (totalKana + initialSounds.length)) {
       return array;
     } else {
       return array.filter(word => word.romaji.every((letter) => {
@@ -57,7 +58,7 @@ function App() {
     }
   }
 
-  function shuffle(array) {
+  function shuffle(array: Word[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       const temp = array[i];

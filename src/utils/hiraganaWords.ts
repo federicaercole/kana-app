@@ -1,4 +1,6 @@
-export const hiraganaWords = [
+import { Word } from "./types";
+
+export const hiraganaWords: Word[] = [
     { kana: "いえ", romaji: ["i", "e"], kanji: "家" },
     { kana: "いいえ", romaji: ["i", "i", "e"], kanji: "" },
     { kana: "おう", romaji: ["o", "u"], kanji: "王" },
