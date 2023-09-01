@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import Message from "./Message";
+import { Word } from "../utils/types";
 
 const solutionIcon = <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" /></svg>
 
-function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage, setScore, wrongWords, setWrongWords }) {
+interface Props {
+    selectedWords: Word[],
+    maxNumberOfWords: number,
+    setStatus: React.Dispatch<React.SetStateAction<string>>,
+    message: string,
+    setMessage: React.Dispatch<React.SetStateAction<string>>,
+    setScore: React.Dispatch<React.SetStateAction<number>>,
+    wrongWords: Word[],
+    setWrongWords: React.Dispatch<React.SetStateAction<Word[]>>
+}
+
+function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage, setScore, wrongWords, setWrongWords }: Props) {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [romaji, setRomaji] = useState("");
 
@@ -11,22 +23,22 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
 
     useEffect(() => {
         const degree = (360 / maxNumberOfWords);
-        const progressBar = document.querySelector(".progress");
+        const progressBar = document.querySelector(".progress") as HTMLElement;
 
-        progressBar.style.background = `conic-gradient(var(--primary-color-dark) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`
+        progressBar.style.background = `conic-gradient(var(--primary-color-dark) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`;
     }, [currentWordIndex, maxNumberOfWords])
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRomaji(e.target.value);
     };
 
     useEffect(() => {
-        const label = document.querySelector("label");
+        const label = document.querySelector("label") as HTMLElement;
         label.focus();
     }, []);
 
-    function checkWord(e) {
-        const input = document.querySelector("input");
+    function checkWord(e: React.SyntheticEvent<HTMLElement>) {
+        const input = document.querySelector("input") as HTMLInputElement;
         if (!input.checkValidity()) {
             setMessage("Write the romaji transcription of the word");
             e.preventDefault();
@@ -60,7 +72,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
         setMessage("");
     }
 
-    function handleKeyInput(e) {
+    function handleKeyInput(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === 'Enter') {
             checkWord(e);
         }
@@ -70,9 +82,9 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
             <section className="progress" aria-label="Number of words to review">
                 <h1>{currentWordIndex + 1}/{maxNumberOfWords}</h1>
             </section>
-            <label htmlFor="kana-word" className="word" key={selectedWords[currentWordIndex].kana} lang="ja" aria-live="polite" tabIndex="-1">{selectedWords[currentWordIndex].kana}</label>
+            <label htmlFor="kana-word" className="word" key={selectedWords[currentWordIndex].kana} lang="ja" aria-live="polite" tabIndex={-1}>{selectedWords[currentWordIndex].kana}</label>
             <div className="input-word">
-                <input type="text" id="kana-word" value={romaji} onChange={handleChange} onKeyDown={(e) => handleKeyInput(e)} required />
+                <input type="text" id="kana-word" value={romaji} onChange={handleChange} onKeyDown={handleKeyInput} required />
                 <button type="button" className="submit" onClick={checkWord}>Submit</button>
             </div>
             <Message message={message} key={message} />
