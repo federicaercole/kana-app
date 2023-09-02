@@ -5,13 +5,14 @@ interface Props {
     maxNumberOfWords: number,
     setStatus: React.Dispatch<React.SetStateAction<string>>,
     onClick: () => void,
+    innerRef: React.MutableRefObject<HTMLHeadingElement>,
 }
 
-function EndPage({ score, maxNumberOfWords, setStatus, onClick }: Props) {
+function EndPage({ score, maxNumberOfWords, setStatus, onClick, innerRef }: Props) {
     document.title = "Results";
 
     return (<main>
-        <h1 tabIndex={-1}>Results</h1>
+        <h1 ref={innerRef} tabIndex={-1}>Results</h1>
         <div className="score" aria-hidden="true">{score}</div>
         <p>You got correct <span className="highlight">{score} out of {maxNumberOfWords}</span> words</p>
         <button type="button" className="list" onClick={() => { setStatus("review") }}>{listIcon}Seen words</button>

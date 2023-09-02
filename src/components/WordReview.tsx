@@ -6,14 +6,15 @@ interface Props {
     selectedWords: Word[],
     wrongWords: Word[],
     onClick: () => void,
+    innerRef: React.MutableRefObject<HTMLHeadingElement>,
 }
 
-function WordReview({ isHiragana, selectedWords, wrongWords, onClick }: Props) {
+function WordReview({ isHiragana, selectedWords, wrongWords, onClick, innerRef }: Props) {
     document.title = "List of reviewed words";
 
     return (
         <main>
-            <h1 tabIndex={-1}>List of reviewed words</h1>
+            <h1 ref={innerRef} tabIndex={-1}>List of reviewed words</h1>
             {wrongWords.length !== 0 && <p className="info">{infoIcon} The highlighted words are the ones you got wrong</p>}
             <table>
                 <thead>

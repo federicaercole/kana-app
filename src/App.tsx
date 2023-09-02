@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { hiraganaWords } from "./utils/hiraganaWords";
 import { katakanaWords } from "./utils/katakanaWords";
 import { initialSounds, totalKana } from "./utils/syllabes";
@@ -21,14 +21,16 @@ function App() {
   const [isHiragana, setIsHiragana] = useState(true);
   const [score, setScore] = useState(0);
   const [wrongWords, setWrongWords] = useState<Word[]>([]);
+  const headingRef = useRef<HTMLHeadingElement>(null!);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [status]);
 
   useEffect(() => {
-    const h1 = document.querySelector("h1") as HTMLHeadingElement;
-    h1.focus();
+    if (status !== "play") {
+      headingRef.current.focus();
+    }
   }, [status]);
 
   function selectWordsRandom(filteredWords: Word[]) {
@@ -93,23 +95,23 @@ function App() {
 
   switch (status) {
     case "start":
-      return (<StartPage setStatus={setStatus} setIsHiragana={setIsHiragana} />);
+      return (<StartPage setStatus={setStatus} setIsHiragana={setIsHiragana} innerRef={headingRef} />);
     case "settings":
       return (<main>
-        <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana} />
+        <Settings innerRef={headingRef} selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana} />
         <Message message={message} key={message} />
         <div className="buttons">
-          <button type="button" className="back" onClick={() => returnToStart()}>{backIcon} Back</button>
-          <button type="button" className="start" onClick={() => startApp()}>Start</button>
+          <button type="button" className="back" onClick={returnToStart}>{backIcon} Back</button>
+          <button type="button" className="start" onClick={startApp}>Start</button>
         </div>
       </main>);
     case "play":
       return (<Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage} setScore={setScore}
         wrongWords={wrongWords} setWrongWords={setWrongWords} />);
     case "end":
-      return (<EndPage score={score} maxNumberOfWords={maxNumberOfWords} setStatus={setStatus} onClick={() => returnToStart()} />)
+      return (<EndPage innerRef={headingRef} score={score} maxNumberOfWords={maxNumberOfWords} setStatus={setStatus} onClick={returnToStart} />)
     case "review":
-      return (<WordReview isHiragana={isHiragana} selectedWords={selectedWords} wrongWords={wrongWords} onClick={() => returnToStart()} />)
+      return (<WordReview innerRef={headingRef} isHiragana={isHiragana} selectedWords={selectedWords} wrongWords={wrongWords} onClick={returnToStart} />)
     default:
       return;
   }

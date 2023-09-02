@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Message from "./Message";
 import { Word } from "../utils/types";
 
@@ -12,20 +12,21 @@ interface Props {
     setMessage: React.Dispatch<React.SetStateAction<string>>,
     setScore: React.Dispatch<React.SetStateAction<number>>,
     wrongWords: Word[],
-    setWrongWords: React.Dispatch<React.SetStateAction<Word[]>>
+    setWrongWords: React.Dispatch<React.SetStateAction<Word[]>>,
 }
 
 function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage, setScore, wrongWords, setWrongWords }: Props) {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [romaji, setRomaji] = useState("");
+    const progressBar = useRef<HTMLElement>(null!);
+    const input = useRef<HTMLInputElement>(null!)
+    const label = useRef<HTMLLabelElement>(null!);
 
     document.title = `Review the words - ${currentWordIndex + 1} of ${maxNumberOfWords}`
 
     useEffect(() => {
         const degree = (360 / maxNumberOfWords);
-        const progressBar = document.querySelector(".progress") as HTMLElement;
-
-        progressBar.style.background = `conic-gradient(var(--primary-color-dark) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`;
+        progressBar.current.style.background = `conic-gradient(var(--primary-color-dark) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`;
     }, [currentWordIndex, maxNumberOfWords])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,13 +34,11 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
     };
 
     useEffect(() => {
-        const label = document.querySelector("label") as HTMLElement;
-        label.focus();
+        label.current.focus();
     }, []);
 
     function checkWord(e: React.SyntheticEvent<HTMLElement>) {
-        const input = document.querySelector("input") as HTMLInputElement;
-        if (!input.checkValidity()) {
+        if (!input.current.checkValidity()) {
             setMessage("Write the romaji transcription of the word");
             e.preventDefault();
         } else {
@@ -79,12 +78,12 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
     }
     return (
         <main>
-            <section className="progress" aria-label="Number of words to review">
+            <section ref={progressBar} className="progress" aria-label="Number of words to review">
                 <h1>{currentWordIndex + 1}/{maxNumberOfWords}</h1>
             </section>
-            <label htmlFor="kana-word" className="word" key={selectedWords[currentWordIndex].kana} lang="ja" aria-live="polite" tabIndex={-1}>{selectedWords[currentWordIndex].kana}</label>
+            <label htmlFor="kana-word" className="word" key={selectedWords[currentWordIndex].kana} lang="ja" aria-live="polite" tabIndex={-1} ref={label}>{selectedWords[currentWordIndex].kana}</label>
             <div className="input-word">
-                <input type="text" id="kana-word" value={romaji} onChange={handleChange} onKeyDown={handleKeyInput} required />
+                <input type="text" id="kana-word" value={romaji} onChange={handleChange} onKeyDown={handleKeyInput} ref={input} required />
                 <button type="button" className="submit" onClick={checkWord}>Submit</button>
             </div>
             <Message message={message} key={message} />

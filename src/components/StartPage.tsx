@@ -3,15 +3,16 @@ const nextIcon = <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.
 interface Props {
     setStatus: React.Dispatch<React.SetStateAction<string>>,
     setIsHiragana: React.Dispatch<React.SetStateAction<boolean>>,
+    innerRef: React.MutableRefObject<HTMLHeadingElement>,
 }
 
-function StartPage({ setStatus, setIsHiragana }: Props) {
+function StartPage({ setStatus, setIsHiragana, innerRef }: Props) {
     document.title = "Kana App - What do you want to practice?";
 
     return (
         <main>
             <fieldset>
-                <legend><h1 tabIndex={-1}>What do you want to <span className="highlight">practice</span>?</h1></legend>
+                <legend><h1 ref={innerRef} tabIndex={-1}>What do you want to <span className="highlight">practice</span>?</h1></legend>
                 <div className="button">
                     <input type="radio" name="kana" id="hiragana" defaultChecked onClick={() => setIsHiragana(true)} />
                     <label htmlFor="hiragana">Hiragana</label>
