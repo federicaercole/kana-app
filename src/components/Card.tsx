@@ -10,12 +10,11 @@ interface Props {
     setStatus: React.Dispatch<React.SetStateAction<string>>,
     message: string,
     setMessage: React.Dispatch<React.SetStateAction<string>>,
-    setScore: React.Dispatch<React.SetStateAction<number>>,
     wrongWords: Word[],
     setWrongWords: React.Dispatch<React.SetStateAction<Word[]>>,
 }
 
-function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage, setScore, wrongWords, setWrongWords }: Props) {
+function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage, wrongWords, setWrongWords }: Props) {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [romaji, setRomaji] = useState("");
     const progressBar = useRef<HTMLElement>(null!);
@@ -43,9 +42,6 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
             e.preventDefault();
         } else {
             if (romaji.trim().toLowerCase() === selectedWords[currentWordIndex].romaji.join("").replaceAll("-", "")) {
-                if (!wrongWords.find(item => item === selectedWords[currentWordIndex])) {
-                    setScore(prev => prev + 1);
-                }
                 nextWord();
                 setRomaji("");
             } else {

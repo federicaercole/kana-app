@@ -1,16 +1,16 @@
 import { useEffect, useRef } from "react";
 import Checkbox from "./Checkbox";
 import { initialSounds, aLine, kaLine, saLine, taLine, naLine, haLine, maLine, yaLine, raLine, dakutenLine, combinationLine } from "../utils/syllabes";
+import { Heading } from "./Heading";
 
 interface Props {
     selectedKana: string[],
     setSelectedKana: React.Dispatch<React.SetStateAction<string[]>>,
     isHiragana: boolean,
     setMaxNumberOfWords: React.Dispatch<React.SetStateAction<number>>,
-    innerRef: React.MutableRefObject<HTMLHeadingElement>,
 }
 
-function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWords, innerRef }: Props) {
+function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWords }: Props) {
     document.title = "Choose the kana you want to review";
     const allKanaCheckbox = useRef<HTMLInputElement>(null!);
     const checkboxesNotAllKana = useRef<HTMLInputElement[]>([]);
@@ -51,7 +51,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
     }
     return (
         <fieldset>
-            <legend><h1 ref={innerRef} tabIndex={-1}>Choose the kana you want to review</h1></legend>
+            <legend><Heading>Choose the kana you want to review</Heading></legend>
 
             <Checkbox innerRef={allKanaCheckbox} className="all-kana" id="select-all" onClick={selectAllKana} labelText={isHiragana ? "Select all hiragana" : "Select all katakana"} />
             <Checkbox innerRef={setCheckboxesRef} id="aLine" onClick={(e) => selectKana(e, aLine)} lang="ja" labelText={isHiragana ? "あ a - い i - う u - え e - お o" : "ア a - イ i - ウ u - エ e - オ o"} />
