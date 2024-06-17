@@ -4,7 +4,7 @@ interface Props {
     labelText: string,
     onClick: (e: React.MouseEvent<HTMLInputElement>) => void,
     lang?: string,
-    innerRef: React.MutableRefObject<HTMLInputElement> | ((element: HTMLInputElement) => void)
+    innerRef: React.RefObject<HTMLInputElement> | ((element: HTMLInputElement) => void)
 }
 
 function Checkbox({ className, id, labelText, onClick, lang, innerRef }: Props) {

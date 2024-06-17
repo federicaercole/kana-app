@@ -5,12 +5,9 @@ import { initialSounds, totalKana } from "./utils/syllabes";
 import StartPage from "./components/StartPage";
 import Card from "./components/Card";
 import Settings from "./components/Settings";
-import Message from "./components/Message";
 import EndPage from "./components/EndPage";
 import WordReview from "./components/WordReview";
 import { Word } from "./utils/types";
-
-const backIcon = <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>;
 
 function App() {
   const [selectedKana, setSelectedKana] = useState(initialSounds);
@@ -88,14 +85,8 @@ function App() {
     case "start":
       return (<StartPage setStatus={setStatus} setIsHiragana={setIsHiragana} />);
     case "settings":
-      return (<main>
-        <Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana} />
-        <Message message={message} key={message} />
-        <div className="buttons">
-          <button type="button" className="back" onClick={returnToStart}>{backIcon} Back</button>
-          <button type="button" className="start" onClick={startApp}>Start</button>
-        </div>
-      </main>);
+      return (<Settings selectedKana={selectedKana} setSelectedKana={setSelectedKana} setMaxNumberOfWords={setMaxNumberOfWords} isHiragana={isHiragana}
+        returnToStart={returnToStart} startApp={startApp} message={message} />);
     case "play":
       return (<Card selectedWords={selectedWords} setStatus={setStatus} maxNumberOfWords={maxNumberOfWords} message={message} setMessage={setMessage}
         wrongWords={wrongWords} setWrongWords={setWrongWords} />);

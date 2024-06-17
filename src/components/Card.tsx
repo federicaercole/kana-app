@@ -17,15 +17,17 @@ interface Props {
 function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage, wrongWords, setWrongWords }: Props) {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [romaji, setRomaji] = useState("");
-    const progressBar = useRef<HTMLElement>(null!);
-    const input = useRef<HTMLInputElement>(null!)
-    const label = useRef<HTMLLabelElement>(null!);
+    const progressBar = useRef<HTMLElement>(null);
+    const input = useRef<HTMLInputElement>(null)
+    const label = useRef<HTMLLabelElement>(null);
 
     document.title = `Review the words - ${currentWordIndex + 1} of ${maxNumberOfWords}`
 
     useEffect(() => {
         const degree = (360 / maxNumberOfWords);
-        progressBar.current.style.background = `conic-gradient(var(--primary-color-dark) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`;
+        if (progressBar.current) {
+            progressBar.current.style.background = `conic-gradient(var(--primary-color-dark) ${(currentWordIndex + 1) * degree}deg, var(--primary-color) 0deg)`;
+        }
     }, [currentWordIndex, maxNumberOfWords])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,11 +35,11 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
     };
 
     useEffect(() => {
-        label.current.focus();
+        label.current?.focus();
     }, []);
 
     function checkWord(e: React.SyntheticEvent<HTMLElement>) {
-        if (!input.current.checkValidity()) {
+        if (!input.current?.checkValidity()) {
             setMessage("Write the romaji transcription of the word");
             e.preventDefault();
         } else {
@@ -72,6 +74,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
             checkWord(e);
         }
     }
+
     return (
         <main>
             <section ref={progressBar} className="progress" aria-label="Number of words to review">
@@ -82,7 +85,7 @@ function Card({ selectedWords, maxNumberOfWords, setStatus, message, setMessage,
                 <input type="text" id="kana-word" value={romaji} onChange={handleChange} onKeyDown={handleKeyInput} ref={input} required />
                 <button type="button" className="submit" onClick={checkWord}>Submit</button>
             </div>
-            <Message message={message} key={message} />
+            <Message message={message} />
             {/retry/i.test(message) && <button className="solution" aria-live="polite" onClick={seeSolution}>{solutionIcon} See the solution</button>}
         </main>
     )
