@@ -18,8 +18,10 @@ function EndPage({ wrongWords, maxNumberOfWords, setStatus, onClick }: Props) {
         <Heading>Results</Heading>
         <div className="score" aria-hidden="true">{score}</div>
         <p>You got correct <span className="highlight">{score} out of {maxNumberOfWords}</span> words</p>
-        <button type="button" className="list" onClick={() => { setStatus("review") }}>{listIcon}Seen words</button>
-        <button type="button" className="start" onClick={onClick}>Start New Game</button>
+        <div className="buttons">
+            <button type="button" className="list" onClick={() => { setStatus("review") }}>{listIcon}Seen words</button>
+            <button type="button" className="start" onClick={onClick}>Start New Game</button>
+        </div>
     </main>)
 }
 

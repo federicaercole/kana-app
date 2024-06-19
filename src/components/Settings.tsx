@@ -61,7 +61,7 @@ function Settings({ selectedKana, setSelectedKana, isHiragana, setMaxNumberOfWor
 
     return (
         <main>
-            <fieldset>
+            <fieldset className="kana-selection">
                 <legend><Heading>Choose the kana you want to review</Heading></legend>
 
                 <Checkbox innerRef={allKanaCheckbox} className="all-kana" id="select-all" onClick={selectAllKana} labelText={isHiragana ? "Select all hiragana" : "Select all katakana"} />
